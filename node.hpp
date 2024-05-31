@@ -11,8 +11,10 @@ private:
     Node * right = NULL;
 public:
     // constructores y destructor
-    Node(){}
-    Node(type value) : value(value), right(NULL), left(NULL) {}
+    Node() : value(type()), left(NULL), right(NULL) {}
+    Node(type value) : value(value), left(NULL), right(NULL) {}
+    Node(type value, Node * left) : value(value), left(left), right(NULL) {}
+    Node(type value, Node * left, Node * right) : value(value), left(left), right(right) {}
     ~Node(){};
 
     // setter
@@ -22,6 +24,9 @@ public:
 
     // getter
     type getValue(){return this->value;}
+    type getValueOfLeft(){return this->left->getValue();}
+    type getValueOfRight(){return this->right->getValue();}
+
     Node * getRight(){return this->right;}
     Node * getLeft(){return this->left;}
     type * getPointerToValue(){return &this->value;}
