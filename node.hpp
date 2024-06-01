@@ -3,12 +3,20 @@
 #ifndef NODE_HEADER
 #define NODE_HEADER
 
+#include "list/list.hpp"
+
 template <typename type>
 class Node{
 private:
     type value;
+
+    // binary node
     Node * left = NULL;
     Node * right = NULL;
+    
+    // n-ary node
+    List<Node> children = List<Node>();
+
 public:
     // constructores y destructor
     Node() : value(type()), left(NULL), right(NULL) {}
