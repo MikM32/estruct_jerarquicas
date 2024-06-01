@@ -6,7 +6,7 @@
 #include "list/list.hpp"
 
 template <typename type>
-class Node{
+class NodeTree{
 private:
     type value;
 
@@ -15,7 +15,7 @@ private:
     Node * right = NULL;
     
     // n-ary node
-    List<Node> children = List<Node>();
+    List<NodeTree> children = List<NodeTree>();
 
 public:
     // constructores y destructor
