@@ -178,7 +178,7 @@ class List{
             // ALERTAS PARA DETECCION DE ERRORES EN EL TALLER
             // Indice fuera del rango de la lista
             if(index < 0 || index > this->size){
-                cout << endl << "FUNCION: type removeAtIndex(int index)" << endl;
+                cout << endl << "FUNCION: type insertAtIndex(int index)" << endl;
                 cout << "CLASE: List<type>" << endl ;
                 cout << "ERROR: El indice {";
                 cout << index << "} es menor {0} o mayor al tamaño de la lista {";
@@ -564,7 +564,7 @@ class List{
         type * getPointerToLastValue(){return this->last->getPointerToValue();}
 
         // metodos para modificar
-        void ModifyValueAtIndex(int index, type value){
+        void modifyValueAtIndex(int index, type value){
             NodeList<type> * pointer = NULL;
 
             // ALERTAS PARA DETECCION DE ERRORES EN EL TALLER
