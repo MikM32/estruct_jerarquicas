@@ -37,7 +37,7 @@ public:
 
     int getDegree() { return this->children.getSize(); }
 
-    void modifyValueOfAtIndex(int index, type value) { this->children.getValueAtIndex(index)->setValue(value); }
+    void modifyValueAtIndex(int index, type value) { this->children.getValueAtIndex(index)->setValue(value); }
     void modifyValueAtFirst(type value) { this->children.getValueAtFirst()->setValue(value); }
     void modifyValueAtLast(type value) { this->children.getValueAtLast()->setValue(value); }
 };
