@@ -1,5 +1,5 @@
-#ifndef NODETREEBIN_HEADER
-#define NODETREEBIN_HEADER
+#ifndef TREEBINARY_NODE
+#define TREEBINARY_NODE
 
 #include "list/list.hpp"
 
@@ -49,4 +49,4 @@ public:
     }
 };
 
-#endif // NODETREEBIN_HEADER
+#endif // TREEBINARY_NODE

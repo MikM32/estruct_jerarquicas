@@ -1,5 +1,5 @@
-#ifndef NODETREENARY_HEADER
-#define NODETREENARY_HEADER
+#ifndef TREENARY_NODE
+#define TREENARY_NODE
 
 #include "list/list.hpp"
 
@@ -42,4 +42,4 @@ public:
     void modifyValueAtLast(type value) { this->children.getValueAtLast()->setValue(value); }
 };
 
-#endif // NODETREENARY_HEADER
+#endif // TREENARY_NODE
