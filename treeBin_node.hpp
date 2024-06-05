@@ -43,7 +43,7 @@ public:
 
         if(this->left == NULL && this->right == NULL){result = 0;}
         else if(this->left == NULL || this->right == NULL){result = 1;}
-        if(this->left != NULL & this->right != NULL){result = 2;}
+        if(this->left != NULL && this->right != NULL){result = 2;}
 
         return result;
     }
