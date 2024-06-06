@@ -39,6 +39,7 @@ private:
 
         // tiene un solo hijo
         else if(node->getDegree() == 1){
+            cout << "grado: " << node->getDegree() << endl;
             if(node->getLeft() == NULL)
                 node->setLeft(new NodeTreeBin(value));
             else
