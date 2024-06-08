@@ -7,12 +7,12 @@ template <typename type>
 class NodeList{
 private:
     type value;
-    NodeList * next = NULL;
-    NodeList * previous = NULL;
+    NodeList * next = nullptr;
+    NodeList * previous = nullptr;
 public:
     // constructores y destructor
     NodeList(){}
-    NodeList(type value) : value(value), next(NULL), previous(NULL) {}
+    NodeList(type value) : value(value), next(nullptr), previous(nullptr) {}
     ~NodeList(){};
 
     // setter

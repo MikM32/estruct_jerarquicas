@@ -1,22 +1,20 @@
 #ifndef TREEBINARY_NODE
 #define TREEBINARY_NODE
 
-#include "list/list.hpp"
-
 template <typename type>
 class NodeTreeBin{
 private:
     type value;
 
     // binary node
-    NodeTreeBin * left = NULL;
-    NodeTreeBin * right = NULL;
+    NodeTreeBin * left = nullptr;
+    NodeTreeBin * right = nullptr;
 
 public:
     // constructores y destructor
-    NodeTreeBin() : value(type()), left(NULL), right(NULL) {}
-    NodeTreeBin(type value) : value(value), left(NULL), right(NULL) {}
-    NodeTreeBin(type value, NodeTreeBin * left) : value(value), left(left), right(NULL) {}
+    NodeTreeBin() : value(type()), left(nullptr), right(nullptr) {}
+    NodeTreeBin(type value) : value(value), left(nullptr), right(nullptr) {}
+    NodeTreeBin(type value, NodeTreeBin * left) : value(value), left(left), right(nullptr) {}
     NodeTreeBin(type value, NodeTreeBin * left, NodeTreeBin * right) : value(value), left(left), right(right) {}
     ~NodeTreeBin(){};
 
@@ -34,6 +32,9 @@ public:
 
     NodeTreeBin * getLeft() { return this->left; }
     NodeTreeBin * getRight() { return this->right; }
+
+    NodeTreeBin ** getPointerToLeft() { return &this->left; }
+    NodeTreeBin ** getPointerToRight() { return &this->right; }
     
     type getValueOfLeft() { return this->left->getValue(); }
     type getValueOfRight() { return this->right->getValue(); }
@@ -41,9 +42,9 @@ public:
     int getDegree(){
         int result = -1;
 
-        if(this->left == NULL && this->right == NULL){result = 0;}
-        else if(this->left == NULL || this->right == NULL){result = 1;}
-        if(this->left != NULL && this->right != NULL){result = 2;}
+        if(this->left == nullptr && this->right == nullptr){result = 0;}
+        else if(this->left == nullptr || this->right == nullptr){result = 1;}
+        if(this->left != nullptr && this->right != nullptr){result = 2;}
 
         return result;
     }
