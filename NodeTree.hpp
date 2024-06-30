@@ -1,9 +1,14 @@
-#pragma once
-
 #ifndef NODE_HEADER
 #define NODE_HEADER
 
-#include "list/list.hpp"
+#include <list>
+#include <queue>
+#include <stack>
+#include <algorithm>
+
+#include "utils.h"
+
+using namespace std;
 
 template <typename type>
 class NodeTree{
@@ -11,32 +16,32 @@ private:
     type value;
 
     // binary node
-    Node * left = NULL;
-    Node * right = NULL;
-    
-    // n-ary node
-    List<NodeTree> children = List<NodeTree>();
+    NodeTree<type>* left = NULL;   // para N-arios seria hijo_izquierdo
+    NodeTree<type>* right = NULL; // para N-arios seria hermano_derecho
+
+
 
 public:
     // constructores y destructor
-    Node() : value(type()), left(NULL), right(NULL) {}
-    Node(type value) : value(value), left(NULL), right(NULL) {}
-    Node(type value, Node * left) : value(value), left(left), right(NULL) {}
-    Node(type value, Node * left, Node * right) : value(value), left(left), right(right) {}
-    ~Node(){};
+    NodeTree() : value(type()), left(NULL), right(NULL) {}
+    NodeTree(type value) : value(value), left(NULL), right(NULL) {}
+    NodeTree(type value, NodeTree<type>* left) : value(value), left(left), right(NULL) {}
+    NodeTree(type value, NodeTree<type>* left, NodeTree<type>* right) : value(value), left(left), right(right) {}
+    ~NodeTree(){};
 
     // setter
     void setValue(type value){this->value = value;}
-    void setRight(Node * right){this->right = right;}
-    void setLeft(Node * left){this->left = left;}
+    void setRight(NodeTree<type>* right){this->right = right;}
+    void setLeft(NodeTree<type>* left){this->left = left;}
+
 
     // getter
     type getValue(){return this->value;}
-    type getValueOfLeft(){return this->left->getValue();}
-    type getValueOfRight(){return this->right->getValue();}
+    NodeTree<type>* getRight(){return this->right;}
+    NodeTree<type>* getLeft(){return this->left;}
 
-    Node * getRight(){return this->right;}
-    Node * getLeft(){return this->left;}
+
+
     type * getPointerToValue(){return &this->value;}
 };
 
