@@ -9,7 +9,7 @@ class Ntree // Izquierda para hijos y derecha para hermanos
 private:
 
     int weight;
-    NodeTree<type>* root;
+    NodeTree<type>* root, *acum;
 
     void preorder_recursive(list<type>& res, NodeTree<type>* curNode)
     {
@@ -17,9 +17,56 @@ private:
         {
             res.push_back(curNode->getValue());
             this->preorder_recursive(res, curNode->getLeft());
-            this->preorder_recursive(res, curNode->getRight());
+
+            acum = curNode->getRight();
+
+            while(acum != NULL)
+            {
+                this->preorder_recursive(res, acum);
+                acum = acum->getRight();
+            }
+
         }
     }
+
+    NodeTree<type>* copyNode(NodeTree<type>* node)
+    {
+        NodeTree<type>* newNode;
+
+        if(node != NULL)
+        {
+            this->weight++;
+            newNode = new NodeTree<type>(node->getValue(), this->copyNode(node->getLeft()),  this->copyNode(node->getRight()));
+            return newNode;
+        }
+
+        return NULL;
+    }
+
+    void destroyNodes(NodeTree<type>* node)
+    {
+        if(node != NULL)
+        {
+            if(node->getRight() != NULL)
+            {
+                destroyNodes(node->getRight());
+            }
+
+            if(node->getLeft() != NULL)
+            {
+                destroyNodes(node->getLeft());
+            }
+
+            delete node;
+            this->weight--;
+        }
+    }
+
+    NodeTree<type>* getRootNode()
+    {
+        return this->root;
+    }
+
 
 public:
 
@@ -60,58 +107,7 @@ public:
         return res;
     }
 
-    void insertByLevel(type elem) // Insercion por niveles (BFS)
-    {
-        NodeTree<type>* newNode = new NodeTree<type>(elem);
-        NodeTree<type>* auxNode = NULL, *auxLeft, *auxRight;
 
-        queue<NodeTree<type>*> auxQueue;
-
-        if(this->root == NULL)
-        {
-            this->root = newNode;
-
-        }else
-        {
-            auxQueue.push(this->root);
-
-            while(!auxQueue.empty())
-            {
-                auxNode = auxQueue.front();
-                auxQueue.pop();
-
-                auxLeft = auxNode->getLeft();
-                auxRight = auxNode->getRight();
-
-
-
-                if(auxLeft == NULL)// Si el hijo izquierdo es nulo se inserta alli
-                {
-                    auxNode->setLeft(newNode);
-
-                    break;
-                }
-                else
-                {
-                    auxQueue.push(auxLeft);
-                }
-
-                if(auxRight == NULL) // Si el hijo derecho es nulo se inserta alli
-                {
-                    auxNode->setRight(newNode);
-                    break;
-                }
-                else
-                {
-                    auxQueue.push(auxRight);
-                }
-
-
-            }
-        }
-
-        this->weight++;
-    }
 
 };
 

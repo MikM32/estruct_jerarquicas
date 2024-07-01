@@ -7,7 +7,7 @@
 template <typename type>
 class BinTree
 {
-private:
+protected:
     int weight;
     NodeTree<type>* root;
 
@@ -20,6 +20,8 @@ private:
             this->preorder_recursive(res, curNode->getRight());
         }
     }
+
+
 
     void postorder_recursive(list<type>& res, NodeTree<type>* curNode)
     {
@@ -316,7 +318,7 @@ public:
         return res;
     }
 
-    BinTree getLeftChild()
+    BinTree getLeftChild() // getHijoIzq
     {
         BinTree leftChildTree;
 
@@ -325,7 +327,7 @@ public:
         return leftChildTree;
     }
 
-    BinTree getRightChild()
+    BinTree getRightChild() // getHijoDer
     {
         BinTree rightChildTree;
 
@@ -421,6 +423,11 @@ public:
         */
 
         return level;
+    }
+
+    bool isLeaf()
+    {
+        return (this->root->getLeft() == NULL) && (this->root->getRight() == NULL);
     }
 
 

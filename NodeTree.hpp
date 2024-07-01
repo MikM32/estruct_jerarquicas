@@ -40,6 +40,8 @@ public:
     NodeTree<type>* getRight(){return this->right;}
     NodeTree<type>* getLeft(){return this->left;}
 
+    bool isLeaf(){ return this->left == NULL && this->right == NULL;}
+
 
 
     type * getPointerToValue(){return &this->value;}

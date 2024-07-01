@@ -8,12 +8,9 @@ using namespace std;
 template <typename type>
 void printList(list<type> lista)
 {
-    for(auto &a: lista)
+    for(auto a: lista)
     {
-        if(a)
-        {
-            cout << a << " ";
-        }
+        cout << a << " ";
     }
 
     cout << endl;
