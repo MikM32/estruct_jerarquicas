@@ -132,9 +132,7 @@ protected:
 
                 delNode->setValue(aux->getValue());
 
-                delNode = aux;
-
-                deleteElemRecursive(elem, delNode);
+                deleteElemRecursive(aux->getValue(), delNode->getRight());
             }
             else if(delNode->getRight() != NULL) // Si hay un nodo a la derecha pero no a la izquierda
             {
@@ -160,6 +158,8 @@ protected:
                 {
                     delNodeParent->setRight(delNode->getLeft());
                 }
+
+                delete delNode;
             }
             else // Es hoja
             {
