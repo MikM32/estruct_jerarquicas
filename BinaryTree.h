@@ -21,8 +21,6 @@ protected:
         }
     }
 
-
-
     void postorder_recursive(list<type>& res, NodeTree<type>* curNode)
     {
         if(curNode != NULL)
@@ -129,6 +127,52 @@ protected:
 
     }
 
+
+    bool isEqualNode(NodeTree<type>* parent1, NodeTree<type>* parent2) // Metodo recursivo del metodo isEqual
+    {
+        bool band = false;
+
+        if(parent1 == NULL && parent2 == NULL)
+        {
+            return true;
+        }
+
+        if((parent1 != NULL && parent2 != NULL))
+        {
+
+            if(parent1->getValue() == parent2->getValue())
+            {
+                band = isEqualNode(parent1->getLeft(), parent2->getLeft());
+                band = band && isEqualNode(parent1->getRight(), parent2->getRight());
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        return band;
+    }
+
+    bool isIsomorphicNode(NodeTree<type>* parent1, NodeTree<type>* parent2) //metodo recursivo para isIsomorphic
+    {
+        bool band = false;
+
+        if(parent1 == NULL && parent2 == NULL)
+        {
+            return true;
+        }
+
+        if((parent1 != NULL && parent2 != NULL))
+        {
+
+            band = true;
+            band = band && isIsomorphicNode(parent1->getLeft(), parent2->getLeft());
+            band = band && isIsomorphicNode(parent1->getRight(), parent2->getRight());
+        }
+
+        return band;
+    }
 
     NodeTree<type>* copyNode(NodeTree<type>* node)
     {
@@ -244,7 +288,7 @@ public:
         return this->root == NULL || this->weight == 0;
     }
 
-    int getWeight()
+    int getWeight() //getPeso
     {
         return this->weight;
     }
@@ -406,6 +450,43 @@ public:
         this->constructPostorderRecur(postorderList, inorderList, this->root);
     }
 
+    bool isEqual(BinTree<type> tree) //esIgual
+    {
+        if(this->isEmpty() && tree.isEmpty())
+        {
+            return true;
+        }
+        else if((this->isEmpty() && !tree.isEmpty()) || (!this->isEmpty() && tree.isEmpty()))
+        {
+            return false;
+        }
+        else
+        {
+            return isEqualNode(this->root, tree.root);
+        }
+    }
+
+    bool isIsomorphic(BinTree<type> tree) // esIsomorfo
+    {
+        if(this->isEmpty() && tree.isEmpty())
+        {
+            return true;
+        }
+        else if((this->isEmpty() && !tree.isEmpty()) || (!this->isEmpty() && tree.isEmpty()))
+        {
+            return false;
+        }
+        else
+        {
+            return isIsomorphicNode(this->root, tree.root);
+        }
+    }
+
+    void deleteSubTree(BinTree<type> sub)
+    {
+        this->destroyNodes(sub.root);
+    }
+
     void destroy()
     {
         this->destroyNodes(this->root);
@@ -424,6 +505,7 @@ public:
 
         return level;
     }
+
 
     bool isLeaf()
     {

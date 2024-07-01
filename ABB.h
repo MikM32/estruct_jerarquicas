@@ -68,7 +68,7 @@ protected:
 
 
 
-    NodeTree<type>* findMinNode(NodeTree<type>* parent)
+    NodeTree<type>* findMinNode(NodeTree<type>* parent) // Busca al nodo con el menor valor
     {
         queue<NodeTree<type>*> auxQueue;
         NodeTree<type>* res = parent, *act = parent;
