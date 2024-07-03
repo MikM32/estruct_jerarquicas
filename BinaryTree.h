@@ -552,9 +552,61 @@ public:
         }
     }
 	
-	type lca(type elem1, type elem2)
+	void lca(NodeTree<type>* ptr, const type &e1, const type &e2, bool&found1, bool& found2, bool &lcafound, NodeTree<type>*& ancestor)
 	{
+		bool foundE1Left, foundE2Left, foundE1Right, foundE2Right;
 		
+		if(!lcafound && ptr != NULL)
+		{
+			if(ptr->isLeaf())
+			{
+				found1 = ptr->getValue() == e1;
+				
+				found2 = ptr->getValue() == e2;
+				
+			}
+			else
+			{
+				foundE1Left = false;
+				foundE2Left = false;
+				foundE1Right = false;
+				foundE2Right = false;
+				
+				lca(ptr->getLeft(), e1, e2, foundE1Left, foundE2Left, lcafound, ancestor);
+				lca(ptr->getRight(), e1, e2, foundE1Right, foundE2Right, lcafound, ancestor);
+				
+				if(!lcafound)
+				{
+					found1 = foundE1Left || foundE2Left || ptr->getValue() == e1;
+					found2 = foundE1Right || foundE2Right || ptr->getValue() == e2;
+					
+					lcafound = found1 && found2;
+					
+					if(lcafound)
+					{
+						ancestor = ptr;
+					}
+				}
+			}
+			
+			
+		}
+	}
+	
+	type lca(const type& elem1, const type& elem2) // Lower Common Ancestor / Ancestro Comun mas Bajo
+	{
+		NodeTree<type>* ancestor = NULL;
+		bool found1 = false, found2 = false, lcafound=false;
+		
+		lca(this->root, elem1, elem2, found1,found2, lcafound, ancestor);
+		
+		if(ancestor != NULL)
+		{
+			return ancestor->getValue();
+			
+		}
+		
+		return type();
 	}
 	
 	list<type> getPath(type elem)
