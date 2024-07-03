@@ -127,6 +127,47 @@ protected:
 
     }
 	
+	void lca(NodeTree<type>* ptr, const type &e1, const type &e2, bool&found1, bool& found2, bool &lcafound, NodeTree<type>*& ancestor)
+	{
+		bool foundE1Left, foundE2Left, foundE1Right, foundE2Right;
+		
+		if(!lcafound && ptr != NULL)
+		{
+			if(ptr->isLeaf())
+			{
+				found1 = ptr->getValue() == e1;
+				
+				found2 = ptr->getValue() == e2;
+				
+			}
+			else
+			{
+				foundE1Left = false;
+				foundE2Left = false;
+				foundE1Right = false;
+				foundE2Right = false;
+				
+				lca(ptr->getLeft(), e1, e2, foundE1Left, foundE2Left, lcafound, ancestor);
+				lca(ptr->getRight(), e1, e2, foundE1Right, foundE2Right, lcafound, ancestor);
+				
+				if(!lcafound)
+				{
+					found1 = foundE1Left || foundE2Left || ptr->getValue() == e1;
+					found2 = foundE1Right || foundE2Right || ptr->getValue() == e2;
+					
+					lcafound = found1 && found2;
+					
+					if(lcafound)
+					{
+						ancestor = ptr;
+					}
+				}
+			}
+			
+			
+		}
+	}
+	
 	void findNode(NodeTree<type>* parent, NodeTree<type>*& node_salida, type elem)
 	{
 		if(parent != NULL)
@@ -430,20 +471,57 @@ public:
         return res;
     }
 
+	void getDiameterRecur(NodeTree<type>* ptr, int& diam, int& alt)
+	{
+		int diaml=0, diamD=0, altl=0, altD=0;
+		if(ptr == NULL)
+		{
+			diam = -1;
+			alt = -1;
+		}
+		else if(ptr->isLeaf())
+		{
+			diam = 0;
+			alt=0;
+			
+		}
+		else
+		{
+			getDiameterRecur(ptr->getLeft(), diaml, altl);
+			getDiameterRecur(ptr->getRight(), diamD, altD);
+			
+			diam = (diaml>diamD) ? diaml: diamD;
+			
+			if((altD+altl)+2>diam)
+			{
+				diam = altD+altl+2;
+			}
+			
+			alt = (altl> altD) ? altl+1:altD+1;
+		}
+	}
 	
+	int getDiameter()
+	{
+		int diam=0, alt=0;
+		
+		getDiameterRecur(this->root, diam, alt);
+		
+		return diam;
+	}
 	
-    BinTree getLeftChild() // getHijoIzq
+    BinTree<type> getLeftChild() // getHijoIzq
     {
-        BinTree leftChildTree;
+        BinTree<type> leftChildTree;
 
         leftChildTree.root = leftChildTree.copyNode(this->root->getLeft());
 
         return leftChildTree;
     }
 
-    BinTree getRightChild() // getHijoDer
+    BinTree<type> getRightChild() // getHijoDer
     {
-        BinTree rightChildTree;
+        BinTree<type> rightChildTree;
 
         rightChildTree.root = rightChildTree.copyNode(this->root->getRight());
 
@@ -552,46 +630,7 @@ public:
         }
     }
 	
-	void lca(NodeTree<type>* ptr, const type &e1, const type &e2, bool&found1, bool& found2, bool &lcafound, NodeTree<type>*& ancestor)
-	{
-		bool foundE1Left, foundE2Left, foundE1Right, foundE2Right;
-		
-		if(!lcafound && ptr != NULL)
-		{
-			if(ptr->isLeaf())
-			{
-				found1 = ptr->getValue() == e1;
-				
-				found2 = ptr->getValue() == e2;
-				
-			}
-			else
-			{
-				foundE1Left = false;
-				foundE2Left = false;
-				foundE1Right = false;
-				foundE2Right = false;
-				
-				lca(ptr->getLeft(), e1, e2, foundE1Left, foundE2Left, lcafound, ancestor);
-				lca(ptr->getRight(), e1, e2, foundE1Right, foundE2Right, lcafound, ancestor);
-				
-				if(!lcafound)
-				{
-					found1 = foundE1Left || foundE2Left || ptr->getValue() == e1;
-					found2 = foundE1Right || foundE2Right || ptr->getValue() == e2;
-					
-					lcafound = found1 && found2;
-					
-					if(lcafound)
-					{
-						ancestor = ptr;
-					}
-				}
-			}
-			
-			
-		}
-	}
+	
 	
 	type lca(const type& elem1, const type& elem2) // Lower Common Ancestor / Ancestro Comun mas Bajo
 	{
