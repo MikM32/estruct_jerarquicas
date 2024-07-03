@@ -127,7 +127,32 @@ protected:
 
     }
 
-
+	
+	bool getPathRecur(list<type>& path, NodeTree<type>* parent, type elem)
+	{
+		if(parent == NULL)
+		{
+			return false;
+		}
+		
+		path.push_back(parent->getValue());
+		
+		if(parent->getValue() == elem)
+		{
+			return true;
+		}
+		
+		if(getPathRecur(path, parent->getLeft(), elem) || getPathRecur(path, parent->getRight(), elem))
+		{
+			return true;
+		}
+		
+		
+		path.pop_back();
+		return false;
+			
+	}
+	
     bool isEqualNode(NodeTree<type>* parent1, NodeTree<type>* parent2) // Metodo recursivo del metodo isEqual
     {
         bool band = false;
@@ -206,7 +231,9 @@ protected:
             this->weight--;
         }
     }
-
+	
+	
+	
     NodeTree<type>* getRootNode()
     {
         return this->root;
@@ -481,10 +508,107 @@ public:
             return isIsomorphicNode(this->root, tree.root);
         }
     }
+	
+	type lca(type elem1, type elem2)
+	{
+		
+	}
+	
+	list<type> getPath(type elem)
+	{
+		list<type> path;
+		
+		this->getPathRecur(path, this->root, elem);
+		
+		return path;
+	}
+	
+	list<type> getPathBetween(type elem1, type elem2)
+	{
+		list<type> path_res, path1l, path2l;
+		
+		
+		path1l = getPath(elem1);
+		path2l = getPath(elem2);
+		
+		//Transforma list<type> a vector<type>
+		vector<type> path1(path1l.begin(), path1l.end());
+		vector<type> path2(path2l.begin(), path2l.end());
+		
+		int intersection = -1;
+		int i =0, j=0;
+		
+		while(i!= (int)path1.size() || j != (int)path2.size())
+		{
+			if(i==j && path1[i] == path2[j])
+			{
+				i++;
+				j++;
+			}
+			else
+			{
+				intersection = j-1; // Le resta uno para omitir un elemento que se repite en ambos caminos
+									// (para que no se repita dos veces)
+				break;
+			}
+		}
+		
+		for(int i = path1.size()-1; i> intersection; i--)
+		{
+			path_res.push_back(path1[i]);
+		} 
+		
+		for(int i = intersection; i < path2.size(); i++)
+		{
+			path_res.push_back(path2[i]);
+		}
+		
+		return path_res;
+	}
 
     void deleteSubTree(BinTree<type> sub)
     {
-        this->destroyNodes(sub.root);
+		
+        NodeTree<type>* auxNode = NULL;
+
+        queue<NodeTree<type>*> auxQueue;
+
+        if(this->root != NULL)
+        {
+            auxQueue.push(this->root);
+
+            while(!auxQueue.empty())
+            {
+                auxNode = auxQueue.front();
+                auxQueue.pop();
+
+                
+
+                if(auxNode->getLeft() != NULL)
+                {
+					if(auxNode->getLeft() == sub.root->getValue())
+					{
+						this->destroyNodes(auxNode->getLeft());
+						auxNode->setLeft(NULL);
+						break;
+					}
+                    auxQueue.push(auxNode->getLeft());
+                }
+
+                if(auxNode->getRight() != NULL)
+                {
+					if(auxNode->getRight() == sub.root->getValue())
+					{
+						this->destroyNodes(auxNode->getRight());
+						auxNode->setRight(NULL);
+						break;
+					}
+                    auxQueue.push(auxNode->getRight());
+                }
+
+	
+            }
+        }
     }
 
     void destroy()
