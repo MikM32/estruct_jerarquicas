@@ -126,7 +126,48 @@ protected:
 
 
     }
-
+	
+	void findNode(NodeTree<type>* parent, NodeTree<type>*& node_salida, type elem)
+	{
+		if(parent != NULL)
+		{
+			if(parent->getValue() == elem)
+			{
+				node_salida = parent;
+			}
+			else
+			{
+				findNode(parent->getLeft(), node_salida, elem);
+				findNode(parent->getRight(), node_salida, elem);
+			}
+		}
+	}
+	
+	void findParentNode(NodeTree<type>* parent, NodeTree<type>*& parent_salida, type elem)
+	{
+		if(parent != NULL)
+		{
+			
+			if(parent->getRight() != NULL)
+			{
+				if(parent->getRight()->getValue() == elem)
+				{
+					parent_salida = parent;
+				}
+			}
+			if(parent->getLeft() != NULL)
+			{
+				if(parent->getLeft()->getValue() == elem)
+				{
+					parent_salida = parent;
+				}
+				
+			}
+			
+			findParentNode(parent->getLeft(), parent_salida, elem);
+			findParentNode(parent->getRight(), parent_salida, elem);
+		}
+	}
 	
 	bool getPathRecur(list<type>& path, NodeTree<type>* parent, type elem)
 	{
@@ -389,6 +430,8 @@ public:
         return res;
     }
 
+	
+	
     BinTree getLeftChild() // getHijoIzq
     {
         BinTree leftChildTree;
@@ -610,6 +653,68 @@ public:
             }
         }
     }
+	
+	type getParent(type elem) // getPadre
+	{
+		NodeTree<type>* parent = findParentNode(this->root, elem);
+		
+		if(parent != NULL)
+		{
+			return parent->getValue();
+		}
+	}
+	
+	
+	list<type> getCousins(type elem1) //getPrimos
+	{
+		NodeTree<type>* elemNode = NULL, *uncle; // Nodo tio
+		NodeTree<type>* parentNode = NULL; //Nodo padre
+		NodeTree<type>* grandParentNode = NULL; //Nodo abuelo
+		
+		findNode(this->root, elemNode, elem1);
+		findParentNode(this->root, parentNode, elem1);
+		
+		if(parentNode != NULL) // Si el elemento actual tiene padre entonces busca a su abuelo
+		{
+			findParentNode(this->root, grandParentNode, parentNode->getValue());	
+		}
+		
+		
+		list<type> cousins;
+		
+		if(elemNode != NULL && grandParentNode != NULL) // si se encontro al elemento y tiene abuelo
+		{
+			uncle = grandParentNode->getLeft();
+			if(uncle != NULL && uncle->getValue() != parentNode->getValue()) // Se verifica si el elemento de la izquierda es un tio y no su padre
+			{
+				if(uncle->getLeft() != NULL)
+				{
+					cousins.push_back(uncle->getLeft()->getValue());
+				}
+				
+				if(uncle->getRight() != NULL)
+				{
+					cousins.push_back(uncle->getRight()->getValue());
+				}
+			}
+			
+			uncle = grandParentNode->getRight();
+			if(uncle != NULL && uncle->getValue() != parentNode->getValue())
+			{
+				if(uncle->getLeft() != NULL)
+				{
+					cousins.push_back(uncle->getLeft()->getValue());
+				}
+				
+				if(uncle->getRight() != NULL)
+				{
+					cousins.push_back(uncle->getRight()->getValue());
+				}
+			}
+		}
+		
+		return cousins;
+	}
 
     void destroy()
     {
@@ -635,9 +740,6 @@ public:
     {
         return (this->root->getLeft() == NULL) && (this->root->getRight() == NULL);
     }
-
-
-
 
 };
 
